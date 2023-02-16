@@ -1,22 +1,17 @@
+// Imports
 import "./style.css";
 import {Todos} from "./todos.js";
-
-let a = new Todos("a", "b", "c", "d");
+// DOM selectors
+const createTodoBtn = document.querySelector("#createTodoBtn");
+const mainContent = document.querySelector("main");
+// Code
+createTodoBtn.addEventListener("click", () => {
+    let a = new Todos("a", "b", "c", "d");
+    console.log(a);
+    
+})
 
 function createTodo(a, b, c, d) {
     return new Todos(a, b, c, d);
 }
-
-/* function returnSomething() {
-    alert("this works");
-}
-returnSomething(); */
-//export {returnSomething};
-
-function returnSomething() {
-    alert("this works");
-}
-//returnSomething();
-let todoItem = createTodo("a", "b", "c", "d");
-document.getElementById("main").append(todoItem);
-export {createTodo, returnSomething, todoItem};
+export {createTodo};
