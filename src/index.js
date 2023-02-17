@@ -4,10 +4,11 @@ import {Todos} from "./todos.js";
 // DOM selectors
 const createTodoBtn = document.querySelector("#createTodoBtn");
 const mainContent = document.querySelector("main");
+let todoForm = document.querySelector("#todoForm");
 // Code
+let todoList = [];
 createTodoBtn.addEventListener("click", () => {
-    let a = new Todos("a", "b", "c", "d");
-    console.log(a);
+    todoForm.classList.replace("form-hide", "form-display");
     
 })
 
