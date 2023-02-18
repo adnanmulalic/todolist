@@ -1,3 +1,10 @@
+class Projects {
+    constructor(title, description) {
+        this.title = title;
+        this.description = description;
+    }
+}
+
 
 class Todos {
     constructor(title, description, dueDate, priority) {
@@ -8,5 +15,12 @@ class Todos {
     }
 }
 
+function displayTodo(todo) {
+    let values = Object.values(todo);
+    values.forEach(todoValue => {
+        return document.createElement("p").innerText = todoValue.value;
 
-export {Todos};
+    });
+}
+
+export {Todos, displayTodo};
