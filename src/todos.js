@@ -16,11 +16,13 @@ class Todos {
 }
 
 function displayTodo(todo) {
-    let values = Object.values(todo);
-    values.forEach(todoValue => {
-        return document.createElement("p").innerText = todoValue.value;
-
+    let todoValues = Object.values(todo);
+    let todoValueString = [];
+    todoValues.forEach((todoValue) => {
+        todoValueString.push(String(todoValue));
+        console.log(todoValueString);
     });
+    return todoValueString;
 }
 
 export {Todos, displayTodo};

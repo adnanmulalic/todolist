@@ -26,6 +26,7 @@ cancelButton.addEventListener("click", () => {
 
 submitButton.addEventListener("click", () =>  {
     let newTodo = new Todos(title.value, description.value, urgent.value, dueDate.value)
+    todoList.push(newTodo);
     let newTodoDiv = document.createElement("div");
     newTodoDiv.appendChild(displayTodo(newTodo));
     mainContent.appendChild(newTodoDiv);
