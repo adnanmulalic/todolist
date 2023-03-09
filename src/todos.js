@@ -1,10 +1,18 @@
 class Projects {
-    constructor(title, description) {
+    constructor(title, todos = []) {
         this.title = title;
-        this.description = description;
+        this.todos = todos;
     }
 }
 
+function displayProject(project) {
+    let projectValues = Object.values(project);
+    let projectValueString = [];
+    projectValues.forEach((projectValue) => {
+        projectValueString.push(String(projectValue));
+    });
+    return projectValueString;
+}
 
 class Todos {
     constructor(title, description, dueDate, priority) {
@@ -20,9 +28,8 @@ function displayTodo(todo) {
     let todoValueString = [];
     todoValues.forEach((todoValue) => {
         todoValueString.push(String(todoValue));
-        console.log(todoValueString);
     });
     return todoValueString;
 }
 
-export {Todos, displayTodo};
+export {Todos, Projects, displayTodo, displayProject};
