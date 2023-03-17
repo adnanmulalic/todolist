@@ -80,16 +80,24 @@ submitButton.addEventListener("click", () =>  {
     });
     if (arrayOfTruths.every(isTrue)) {
         addTodo();
-        //currentSelectedProject.todos.push(todoList);
-        let newTodoDiv = document.createElement("div");
         for (let i = 0; i < todoList.length; i++) {
+            let newTodoDiv = document.createElement("div");
+            newTodoDiv.title = todoList[i].title;
+            let removeBtn = document.createElement("button");
+            removeBtn.innerHTML = "X";
+            removeBtn.addEventListener("click", () => {
+                let deletedTodoIndex = todoList.findIndex((todo) => todo.title === removeBtn.parentElement.title);
+                todoList.splice(deletedTodoIndex, 1);
+                removeBtn.parentElement.remove();
+            })
             displayTodo(todoList[i]).forEach(value => {
                 let currentValue = document.createElement("p");
                 currentValue.innerText = value;
                 newTodoDiv.appendChild(currentValue);
                 newTodoDiv.classList.add("todo");
+                newTodoDiv.appendChild(removeBtn);
+                todoDisplay.appendChild(newTodoDiv);
             });
-            todoDisplay.appendChild(newTodoDiv);
         }
         //todoDisplay.appendChild(newTodoDiv);
         title.value = description.value = dueDate.value = "";
@@ -104,42 +112,56 @@ addProjectBtn.addEventListener("click", ()=> {
     projectCreator.style.display = "grid";
 })
 
+document.querySelector("#cancelProjectCreationBtn").addEventListener("click", ()=> {
+    projectCreator.classList.add("form-hide");
+    projectCreator.style.display = "none";
+})
+
+projectName.addEventListener("keyup", () => {
+    for (let i = 0; i < todoProjects.length; i++) {
+        if (todoProjects[i].title === projectName.value) {
+            document.querySelector("#sameProjectError").classList.remove("form-hide");
+            createProjectBtn.setAttribute("disabled", "true");
+            break;
+        } else {
+            document.querySelector("#sameProjectError").classList.add("form-hide");
+            createProjectBtn.removeAttribute("disabled", "");
+        }   
+    }
+})
+
 createProjectBtn.addEventListener("click", ()=> {
     if (projectName.value != "") {
         addProject();
         //console.log(newProject);
         console.log(todoProjects);
         for (let i = 0; i < todoProjects.length; i++) {
-            let indexNumber = todoProjects.indexOf(todoProjects[i]);
             let newProjectDiv = document.createElement("div");
             let currentTitle = displayProject(todoProjects[i]);
             newProjectDiv.innerHTML = currentTitle[0];
-            newProjectDiv.setAttribute("index-number", indexNumber);
             newProjectDiv.title = todoProjects[i].title;
             let removeBtn = document.createElement("button");
             removeBtn.innerHTML = "X";
             removeBtn.addEventListener("click", (e) => {
                 let deletedProjectIndex = todoProjects.findIndex((project) => project.title === removeBtn.parentElement.title);//[removeBtn.parentElement.getAttribute("index-number")];
-                
                 todoProjects.splice(deletedProjectIndex, 1);
                 removeBtn.parentElement.remove();
-                for (let j = 0; j < todoProjects.length; j++) {
-                    //indexNumber = todoProjects.indexOf(todoProjects[j]);
-                    console.log(indexNumber, todoProjects.length);
-                    //e.parentElement.setAttribute("index-number", indexNumber);
-                }
                 if (todoProjects.length === 0) {
-                    createTodoBtn.disabled = true;
+                    createTodoBtn.disabled = true; // continue here 18.3
                 }
                 e.stopPropagation();
                 })
             newProjectDiv.appendChild(removeBtn);
+            newProjectDiv.setAttribute("selected", true);
             sidebarProjects.appendChild(newProjectDiv);
+            currentSelectedProject = todoProjects[i];
+            todoList = currentSelectedProject.todos;
         }
         projectCreator.style.display = "none";
         projectName.value = "";
         projectCreator.classList.add("form-hide");
         createTodoBtn.disabled = false;
+        sidebarProjects.lastChild.style.backgroundColor = "red";
     }
 })
 
@@ -156,15 +178,26 @@ sidebarProjects.addEventListener("click", (e) => {
      todoDisplay.removeChild(todoDisplay.firstChild);
     }
     todoList = currentSelectedProject.todos;
-    let newTodoDiv = document.createElement("div");
     for (let i = 0; i < todoList.length; i++) {
+        let newTodoDiv = document.createElement("div");
+        newTodoDiv.title = todoList[i].title;
+        let removeBtn = document.createElement("button");
+        removeBtn.innerHTML = "X";
+        removeBtn.addEventListener("click", () => {
+            let deletedTodoIndex = todoList.findIndex((todo) => todo.title === removeBtn.parentElement.title);
+            todoList.splice(deletedTodoIndex, 1);
+            removeBtn.parentElement.remove();
+            console.log(deletedTodoIndex);
+            console.log(todoList)
+        })
         displayTodo(todoList[i]).forEach(value => {
             let currentValue = document.createElement("p");
             currentValue.innerText = value;
             newTodoDiv.appendChild(currentValue);
             newTodoDiv.classList.add("todo");
+            newTodoDiv.appendChild(removeBtn);
+            todoDisplay.appendChild(newTodoDiv);
         });
-        todoDisplay.appendChild(newTodoDiv);
     }
     console.log(e.target.innerHTML);
     console.log(currentSelectedProject.todos);
