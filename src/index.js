@@ -132,6 +132,13 @@ projectName.addEventListener("keyup", () => {
 
 createProjectBtn.addEventListener("click", ()=> {
     if (projectName.value != "") {
+        let lastSelectedDiv = null;
+        let sidebarProjectsNodes = document.querySelectorAll("#sidebarMenu > div");
+        for (const divNode of sidebarProjectsNodes) {
+            if(divNode.getAttribute("selected")) {
+                lastSelectedDiv = divNode;
+            };
+        }
         addProject();
         //console.log(newProject);
         console.log(todoProjects);
@@ -152,16 +159,20 @@ createProjectBtn.addEventListener("click", ()=> {
                 e.stopPropagation();
                 })
             newProjectDiv.appendChild(removeBtn);
-            newProjectDiv.setAttribute("selected", true);
             sidebarProjects.appendChild(newProjectDiv);
-            currentSelectedProject = todoProjects[i];
-            todoList = currentSelectedProject.todos;
+        }
+        sidebarProjectsNodes = document.querySelectorAll("#sidebarMenu > div");
+        for (const divNode of sidebarProjectsNodes) {
+            if(lastSelectedDiv && divNode.title === lastSelectedDiv.title) {
+                divNode.style.backgroundColor = "red";
+                divNode.setAttribute("selected", true);
+            };
         }
         projectCreator.style.display = "none";
         projectName.value = "";
         projectCreator.classList.add("form-hide");
         createTodoBtn.disabled = false;
-        sidebarProjects.lastChild.style.backgroundColor = "red";
+        
     }
 })
 
@@ -201,6 +212,5 @@ sidebarProjects.addEventListener("click", (e) => {
     }
     console.log(e.target.innerHTML);
     console.log(currentSelectedProject.todos);
-    console.log(currentSelectedProject.ind);
     console.log(todoProjects);
 })
