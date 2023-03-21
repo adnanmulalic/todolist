@@ -32,4 +32,8 @@ function displayTodo(todo) {
     return todoValueString;
 }
 
-export {Todos, Projects, displayTodo, displayProject};
+function projectStorage(todoProjects) {
+    localStorage.setItem("projects", JSON.stringify(todoProjects));
+}
+
+export {Todos, Projects, displayTodo, displayProject, projectStorage};

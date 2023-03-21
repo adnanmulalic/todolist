@@ -1,6 +1,6 @@
 // Imports
 import "./style.css";
-import {Todos, Projects, displayTodo, displayProject} from "./todos.js";
+import {Todos, Projects, displayTodo, displayProject, projectStorage} from "./todos.js";
 // DOM selectors
 const createTodoBtn = document.querySelector("#createTodoBtn");
 const addProjectBtn = document.querySelector("#addProjectBtn");
@@ -23,32 +23,14 @@ let todoProjects = [];
 let todoList = [];
 let currentSelectedProject = null;
 const isTrue = (currentTruth) => currentTruth === true; //MDN .every();
+let todoProjectsStorage = null;
 
 // Run once at start
-/* let newProjectDiv = document.createElement("div");
-for (let i = 0; i < todoProjects.length; i++) { //try without loop 13.3
-    let currentTitle = displayProject(todoProjects[i]);
-    let indexNumber = todoProjects.indexOf(todoProjects[i]);
-    newProjectDiv.innerHTML = currentTitle[0];
-    newProjectDiv.setAttribute("index-number", indexNumber);
-    newProjectDiv.setAttribute("selected", true);
-}
-sidebarProjects.appendChild(newProjectDiv);
-
-let newTodoDiv = document.createElement("div");
-for (let i = 0; i < todoList.length; i++) {
-    displayTodo(todoList[i]).forEach(value => {
-        let currentValue = document.createElement("p");
-        currentValue.innerText = value;
-        newTodoDiv.appendChild(currentValue);
-        newTodoDiv.classList.add("todo");
-    });
-}
-todoDisplay.appendChild(newTodoDiv); */
 
 function addTodo() {
     let newTodo = new Todos(title.value, description.value, dueDate.value, priority.value);
     todoList.push(newTodo);
+    projectStorage(todoProjects);
     while (todoDisplay.firstChild) {
         todoDisplay.removeChild(todoDisplay.firstChild);
     }
@@ -57,11 +39,11 @@ function addTodo() {
 function addProject() {
     let newProject = new Projects(projectName.value);
     todoProjects.push(newProject);
+    projectStorage(todoProjects);
     while (sidebarProjects.firstChild) {
         sidebarProjects.removeChild(sidebarProjects.firstChild);
     }
 }
-
 
 createTodoBtn.addEventListener("click", () => {
     todoForm.classList.replace("form-hide", "form-display"); 
@@ -70,7 +52,6 @@ createTodoBtn.addEventListener("click", () => {
 cancelButton.addEventListener("click", () => {
     title.value = description.value = dueDate.value = "";
     todoForm.classList.replace("form-display", "form-hide");
-    //submitButton.removeAttribute("disabled", "");
 })
 
 submitButton.addEventListener("click", () =>  {
@@ -99,7 +80,6 @@ submitButton.addEventListener("click", () =>  {
                 todoDisplay.appendChild(newTodoDiv);
             });
         }
-        //todoDisplay.appendChild(newTodoDiv);
         title.value = description.value = dueDate.value = "";
         todoForm.classList.replace("form-display", "form-hide");
     } else {
@@ -140,7 +120,6 @@ createProjectBtn.addEventListener("click", ()=> {
             };
         }
         addProject();
-        //console.log(newProject);
         console.log(todoProjects);
         for (let i = 0; i < todoProjects.length; i++) {
             let newProjectDiv = document.createElement("div");
@@ -154,7 +133,7 @@ createProjectBtn.addEventListener("click", ()=> {
                 todoProjects.splice(deletedProjectIndex, 1);
                 removeBtn.parentElement.remove();
                 if (todoProjects.length === 0) {
-                    createTodoBtn.disabled = true; // continue here 18.3
+                    createTodoBtn.disabled = true;
                 }
                 e.stopPropagation();
                 })
@@ -168,6 +147,7 @@ createProjectBtn.addEventListener("click", ()=> {
                 divNode.setAttribute("selected", true);
             };
         }
+        //localStorage.setItem("projectOne", "cooking");
         projectCreator.style.display = "none";
         projectName.value = "";
         projectCreator.classList.add("form-hide");
@@ -210,7 +190,8 @@ sidebarProjects.addEventListener("click", (e) => {
             todoDisplay.appendChild(newTodoDiv);
         });
     }
-    console.log(e.target.innerHTML);
+    //console.log(e.target.innerHTML);
     console.log(currentSelectedProject.todos);
     console.log(todoProjects);
+    console.log(localStorage.getItem("projects"));
 })
