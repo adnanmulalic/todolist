@@ -23,10 +23,36 @@ let todoProjects = [];
 let todoList = [];
 let currentSelectedProject = null;
 const isTrue = (currentTruth) => currentTruth === true; //MDN .every();
-let todoProjectsStorage = null;
+let todoProjectsStorage = JSON.parse(localStorage.getItem("projects"));
+todoProjectsStorage.forEach(project => {
+    todoProjects.push(project);
+});
+// Run once at start
+for (let i = 0; i < todoProjects.length; i++) {
+    let newProjectDiv = document.createElement("div");
+    let currentTitle = displayProject(todoProjects[i]);
+    newProjectDiv.innerHTML = currentTitle[0];
+    newProjectDiv.title = todoProjects[i].title;
+    let removeBtn = document.createElement("button");
+    removeBtn.innerHTML = "X";
+    removeBtn.addEventListener("click", (e) => {
+        let deletedProjectIndex = todoProjects.findIndex((project) => project.title === removeBtn.parentElement.title);//[removeBtn.parentElement.getAttribute("index-number")];
+        todoProjects.splice(deletedProjectIndex, 1);
+        removeBtn.parentElement.remove();
+        while (todoDisplay.firstChild) {
+            todoDisplay.removeChild(todoDisplay.firstChild);
+        }
+        projectStorage(todoProjects);
+        if (todoProjects.length === 0) {
+            createTodoBtn.disabled = true;
+        }
+        e.stopPropagation();
+        })
+    newProjectDiv.appendChild(removeBtn);
+    sidebarProjects.appendChild(newProjectDiv);
+}
 
 // Run once at start
-
 function addTodo() {
     let newTodo = new Todos(title.value, description.value, dueDate.value, priority.value);
     todoList.push(newTodo);
@@ -70,6 +96,7 @@ submitButton.addEventListener("click", () =>  {
                 let deletedTodoIndex = todoList.findIndex((todo) => todo.title === removeBtn.parentElement.title);
                 todoList.splice(deletedTodoIndex, 1);
                 removeBtn.parentElement.remove();
+                projectStorage(todoProjects);
             })
             displayTodo(todoList[i]).forEach(value => {
                 let currentValue = document.createElement("p");
@@ -132,7 +159,19 @@ createProjectBtn.addEventListener("click", ()=> {
                 let deletedProjectIndex = todoProjects.findIndex((project) => project.title === removeBtn.parentElement.title);//[removeBtn.parentElement.getAttribute("index-number")];
                 todoProjects.splice(deletedProjectIndex, 1);
                 removeBtn.parentElement.remove();
-                if (todoProjects.length === 0) {
+                while (todoDisplay.firstChild) {
+                    todoDisplay.removeChild(todoDisplay.firstChild);
+                }
+                projectStorage(todoProjects);
+                sidebarProjectsNodes = document.querySelectorAll("#sidebarMenu > div");
+                for (const divNode of sidebarProjectsNodes) {
+                    if (divNode.getAttribute("selected")) {
+                        createTodoBtn.disabled = false;
+                    } else {
+                        createTodoBtn.disabled = true;
+                    }
+                }
+                if (sidebarProjectsNodes.length === 0) {
                     createTodoBtn.disabled = true;
                 }
                 e.stopPropagation();
@@ -142,10 +181,16 @@ createProjectBtn.addEventListener("click", ()=> {
         }
         sidebarProjectsNodes = document.querySelectorAll("#sidebarMenu > div");
         for (const divNode of sidebarProjectsNodes) {
-            if(lastSelectedDiv && divNode.title === lastSelectedDiv.title) {
+            if (sidebarProjectsNodes.length === 1) {
                 divNode.style.backgroundColor = "red";
                 divNode.setAttribute("selected", true);
-            };
+                currentSelectedProject = todoProjects.find((project) => project.title === divNode.title);
+                todoList = currentSelectedProject.todos;
+            }
+            else if(lastSelectedDiv && divNode.title === lastSelectedDiv.title) {
+                divNode.style.backgroundColor = "red";
+                divNode.setAttribute("selected", true);
+            }
         }
         //localStorage.setItem("projectOne", "cooking");
         projectCreator.style.display = "none";
@@ -164,6 +209,7 @@ sidebarProjects.addEventListener("click", (e) => {
     }
     e.target.style.backgroundColor = "red";
     e.target.setAttribute("selected", true);
+    createTodoBtn.disabled = false;
     currentSelectedProject = todoProjects.find((project) => project.title === e.target.title);  //currentSelectedProject = todoProjects[e.target.getAttribute("index-number")];
     while (todoDisplay.firstChild) {   
      todoDisplay.removeChild(todoDisplay.firstChild);
@@ -178,8 +224,8 @@ sidebarProjects.addEventListener("click", (e) => {
             let deletedTodoIndex = todoList.findIndex((todo) => todo.title === removeBtn.parentElement.title);
             todoList.splice(deletedTodoIndex, 1);
             removeBtn.parentElement.remove();
-            console.log(deletedTodoIndex);
-            console.log(todoList)
+            projectStorage(todoProjects);
+            
         })
         displayTodo(todoList[i]).forEach(value => {
             let currentValue = document.createElement("p");
