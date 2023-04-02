@@ -1,25 +1,33 @@
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
+
 #content {
     min-height: 100vh;
     display: grid;
-    grid-template-rows: 
+    grid-template-rows:
+    auto 
     auto
     1fr
     auto;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 20% 80%;
     border: 1px solid black;
 }
 
 main {
-    grid-area: 2 / 2;
+    grid-area: 3 / 2;
     background-color: lightslategray;
     margin: 0.5rem;
 }
 
 #sidebar {
     grid-column: 1 / 2;
-    grid-row: 1 / 6;
+    grid-row: 2 / 6;
     background-color: rgb(236, 182, 82);
+    display: flex;
+    flex-direction: column;
 }
+
 
 footer {
     background-color: lightsteelblue;
@@ -27,26 +35,50 @@ footer {
     grid-row: end;
 }
 
+header {
+    grid-column: 1 / 3;
+}
+
 h1 {
-    grid-column: 3 / 4;
+    text-align: center;
     background-color: lightblue;
 }
 
 .todo {
-    display: inline-block;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 100px);
+    justify-content: space-between;
+    background-color: green;
+    margin: 1rem;
+}
+
+.todo > p{
+    margin: auto;
+}
+
+div > button {
+    background-color: yellow;
+}
+
+#addProjectBtn {
     background-color: green;
 }
 
+#todoDisplay {
+    display: flex;
+    flex-direction: column;
+}
+
+#formContainer {
+    grid-row: 2 / 3;
+}
+
 .form-display {
-    text-align: center;
-    position: absolute;
-    top: 200px;
+    display: flex;
     color: white;
     background-color: burlywood;
     padding: 1rem;
-    flex-direction: column;
-    width: 200px;
-    height: 250px;
+    align-items: center;
     gap: 5px;
 }
 
