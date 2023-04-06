@@ -1,5 +1,5 @@
 * {
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 #content {
@@ -10,58 +10,110 @@
     auto
     1fr
     auto;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 25% 75%;
     border: 1px solid black;
 }
 
 main {
     grid-area: 3 / 2;
-    background-color: lightslategray;
-    margin: 0.5rem;
+    background-color: #E0E1DD;
 }
 
 #sidebar {
     grid-column: 1 / 2;
     grid-row: 2 / 6;
-    background-color: rgb(236, 182, 82);
+    background-color: #778DA9;
     display: flex;
     flex-direction: column;
+    font-size: 1.5rem;
 }
 
+#sidebarMenu > div {
+    display: flex;
+    justify-content: space-between;
+}
 
 footer {
-    background-color: lightsteelblue;
+    background-color:#415A77;
     grid-column: 1 / 3;
     grid-row: end;
+    text-align: center;
 }
 
 header {
     grid-column: 1 / 3;
+    background-color: #415A77
 }
 
 h1 {
     text-align: center;
-    background-color: lightblue;
+    font-size: 3rem;
 }
 
 .todo {
     display: grid;
     grid-template-columns: repeat(auto-fit, 100px);
-    justify-content: space-between;
-    background-color: green;
+    justify-content: space-around;
     margin: 1rem;
+    border: 2px solid #778DA9;
+    border-radius: 5px;
 }
 
 .todo > p{
     margin: auto;
+    overflow-wrap: break-word;
+    inline-size: 100px;
 }
 
 div > button {
-    background-color: yellow;
+    background: none;
+    border: none;
 }
 
+div > button:hover {
+    background-color: #778DA9;
+}
+
+.todo > button {
+    margin: auto;
+    background: none
+}
+
+.todo > button:hover {
+    background-color: #778DA9;
+}
 #addProjectBtn {
-    background-color: green;
+    background-color: #E0E1DD;
+    border: none;
+    border-radius: 5px;
+}
+
+#createTodoBtn, #submitButton, #cancelButton {
+    background-color: #E0E1DD;
+    border: 1px solid #778DA9;
+    border-radius: 5px;
+}
+
+#createTodoBtn {
+    font-size: 1rem;
+    margin-left: 50%;
+}
+
+#createTodoBtn:hover {
+    background-color: #415A77;
+    color: #E0E1DD;
+}
+
+#projectCreator {
+    font-size: 1.5rem;
+}
+
+#projectCreator > label {
+    text-align: center;
+}
+#projectCreator > button:hover, #submitButton:hover, #cancelButton:hover, #addProjectBtn {
+    background-color: #415A77;
+    color: #E0E1DD;
 }
 
 #todoDisplay {
@@ -75,8 +127,7 @@ div > button {
 
 .form-display {
     display: flex;
-    color: white;
-    background-color: burlywood;
+    background-color: #778DA9;
     padding: 1rem;
     align-items: center;
     gap: 5px;
@@ -84,4 +135,14 @@ div > button {
 
 .form-hide {
     display: none;
+}
+
+footer > p, a {
+    padding: 5px;
+    display: inline-block;
+}
+
+a, a:link, a:visited {
+    text-decoration: none;
+    color: #E0E1DD;
 }

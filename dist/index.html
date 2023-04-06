@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
     </style>
     <title>TODO app</title>
 </head>
@@ -28,11 +28,10 @@
         </div>
         <div id="todoForm-container">
             <form action="" id="todoForm" class="form-hide">
-                    <h2>Add New Todo</h2>
                     <label for="title">Title: </label>
-                    <input type="text" name="title" id="title" class="inputs" minlength="2" maxlength="15" required>
+                    <input type="text" name="title" id="title" class="inputs" minlength="2" maxlength="15" size="15" required>
                     <label for="description">Description: </label>
-                    <input type="text" name="description" id="description" class="inputs" minlength="2" maxlength="50" required>
+                    <textarea style="resize: none;" type="text" name="description" id="description" class="inputs" minlength="2" maxlength="50" rows="2" cols="20" required></textarea>
                     <label for="dueDate">Due date: </label>
                     <input type="date" name="dueDate" id="dueDate" class="inputs" required>
                     <div>
@@ -51,7 +50,7 @@
             <div id="todoDisplay"></div>
         </main>
         <footer>
-            <p>Footer</p>
+            <p>&copy 2023</p><a href="https://www.theodinproject.com"> The Odin Project</a><p> & </p><a href="https://github.com/adnanmulalic">Adnan Mulalić</a>
         </footer>
     </div>
     <script src="main.js" defer></script>
